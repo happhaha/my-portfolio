@@ -1,0 +1,236 @@
+import type { Post, Profile, Project, Skill, User } from '@/types'
+import { hashPassword } from '@/utils/hash'
+
+/** 演示账号：admin / admin123 —— 首次运行播种时写入。 */
+export const DEMO_CREDENTIALS = {
+  username: 'admin',
+  password: 'admin123',
+  displayName: 'zz2',
+} satisfies { username: string; password: string; displayName: string }
+
+const SEEDED_AT = '2026-09-01T09:00:00.000Z'
+
+export const seedUsers = (): User[] => [
+  {
+    id: 'user_admin',
+    username: DEMO_CREDENTIALS.username,
+    displayName: DEMO_CREDENTIALS.displayName,
+    passwordHash: hashPassword(DEMO_CREDENTIALS.password),
+    createdAt: SEEDED_AT,
+  },
+]
+
+/**
+ * 个人资料种子数据。
+ *
+ * 刻意保持为空：站点所有者登录后台后，在「个人信息管理」里填写自己的内容。
+ * 前台各处对空值都做了降级处理（空字段不渲染，而不是显示「—」或空白块）。
+ */
+export const seedProfile = (): Profile => ({
+  name: '',
+  title: '',
+  tagline: '',
+  bio: '',
+  avatar: '',
+  email: '',
+  location: '',
+  yearsOfExperience: 0,
+  socials: {
+    github: '',
+    blog: '',
+    twitter: '',
+    email: '',
+  },
+  resumeUrl: '',
+  updatedAt: '',
+})
+
+export const seedSkills = (): Skill[] => [
+  { id: 'skill_ts', name: 'TypeScript', category: 'frontend', level: 90, description: '类型建模、泛型、类型体操' },
+  { id: 'skill_react', name: 'React', category: 'frontend', level: 92, description: 'Hooks、性能优化、组件设计' },
+  { id: 'skill_vite', name: 'Vite', category: 'devops', level: 85, description: '构建配置、插件开发、包体优化' },
+  { id: 'skill_tailwind', name: 'TailwindCSS', category: 'frontend', level: 88, description: '设计令牌、主题系统' },
+  { id: 'skill_node', name: 'Node.js', category: 'backend', level: 78, description: 'BFF、脚本工具、CLI' },
+  { id: 'skill_pg', name: 'PostgreSQL', category: 'backend', level: 70, description: '表设计、索引与查询优化' },
+  { id: 'skill_docker', name: 'Docker', category: 'devops', level: 74, description: '镜像构建、本地编排' },
+  { id: 'skill_ci', name: 'CI / CD', category: 'devops', level: 80, description: '流水线、灰度发布、回滚' },
+  { id: 'skill_canvas', name: 'Canvas / WebGL', category: 'design', level: 72, description: '数据可视化、粒子动效' },
+  { id: 'skill_a11y', name: '可访问性', category: 'design', level: 68, description: '语义化、键盘导航、对比度' },
+]
+
+export const seedProjects = (): Project[] => [
+  {
+    id: 'proj_starfield',
+    title: 'Starfield UI',
+    summary: '一套面向深色场景的 React 组件库，内置星空背景与玻璃拟态组件。',
+    description: [
+      '面向个人站与产品落地页的深色主题组件库，重点解决「深色界面缺乏层次」的问题。',
+      '',
+      '· 20+ 个开箱即用组件，全部支持 Tailwind 主题变量覆盖',
+      '· Canvas 星空背景：DPR 自适应、鼠标视差、流星效果，并遵循 prefers-reduced-motion',
+      '· 完整的 TypeScript 类型导出与按需引入支持',
+    ].join('\n'),
+    tags: ['React', 'TypeScript', 'TailwindCSS', 'Canvas'],
+    cover: '',
+    repoUrl: 'https://github.com/zz2/starfield-ui',
+    demoUrl: '',
+    featured: true,
+    order: 1,
+    createdAt: '2026-03-12T08:00:00.000Z',
+    updatedAt: '2026-08-20T08:00:00.000Z',
+  },
+  {
+    id: 'proj_insight',
+    title: 'Insight 数据看板',
+    summary: '面向运营的实时指标看板，支持拖拽布局与自定义指标订阅。',
+    description: [
+      '为运营团队搭建的自助式数据看板，把原本需要每周导出 Excel 的流程搬到线上。',
+      '',
+      '· 拖拽式看板布局，配置可分享给团队成员',
+      '· 指标订阅与阈值告警，异常自动推送到企业微信',
+      '· 首屏渲染优化到 1.2s 以内（含图表数据的懒加载与拆包）',
+    ].join('\n'),
+    tags: ['React', 'ECharts', 'Node.js', 'PostgreSQL'],
+    cover: '',
+    repoUrl: '',
+    demoUrl: 'https://example.com',
+    featured: true,
+    order: 2,
+    createdAt: '2026-01-05T08:00:00.000Z',
+    updatedAt: '2026-07-02T08:00:00.000Z',
+  },
+  {
+    id: 'proj_pipeline',
+    title: '构建流水线工具链',
+    summary: '内部前端脚手架 + CI 模板，把新项目初始化时间从半天压到 5 分钟。',
+    description: [
+      '为团队沉淀的一套工程化基础设施。',
+      '',
+      '· 脚手架支持 React / Vue / 纯 TS 库三种模板',
+      '· 内置 lint、单测、构建、产物分析四段式流水线',
+      '· 接入构建缓存后，平均 CI 耗时从 6 分钟降到 1 分 40 秒',
+    ].join('\n'),
+    tags: ['Node.js', 'Vite', 'GitHub Actions', 'Docker'],
+    cover: '',
+    repoUrl: 'https://github.com/zz2/dev-pipeline',
+    demoUrl: '',
+    featured: true,
+    order: 3,
+    createdAt: '2025-11-18T08:00:00.000Z',
+    updatedAt: '2026-06-11T08:00:00.000Z',
+  },
+  {
+    id: 'proj_blog',
+    title: 'Markdown 博客引擎',
+    summary: '零依赖的静态博客生成器，支持增量构建与 RSS 输出。',
+    description: [
+      '一个周末写出来的小工具，用于替换越来越臃肿的博客方案。',
+      '',
+      '· 增量构建：只重新渲染变更的文件',
+      '· 内置代码高亮、目录生成与 RSS 输出',
+      '· 全量构建 300 篇文章耗时低于 900ms',
+    ].join('\n'),
+    tags: ['Node.js', 'Markdown', 'SSG'],
+    cover: '',
+    repoUrl: 'https://github.com/zz2/md-blog',
+    demoUrl: '',
+    featured: false,
+    order: 4,
+    createdAt: '2025-09-30T08:00:00.000Z',
+    updatedAt: '2026-02-14T08:00:00.000Z',
+  },
+]
+
+export const seedPosts = (): Post[] => [
+  {
+    id: 'post_starfield',
+    slug: 'canvas-starfield-background',
+    title: '用 Canvas 实现一个高性能星空背景',
+    summary: '从星点分布、闪烁算法到 DPR 适配与动效降级，完整拆解一个可以直接上线的星空背景实现。',
+    content: [
+      '## 为什么要用 Canvas 而不是 CSS',
+      '',
+      '用几百个绝对定位的 div 做星星，浏览器需要为每个元素单独维护图层，滚动时容易掉帧。Canvas 只占一个合成层，绘制成本集中在一次 paint，数量在几千以内都毫无压力。',
+      '',
+      '## 三个关键点',
+      '',
+      '1. **密度自适应**：按 `面积 × 密度` 计算星星数量，保证小屏不会稀疏、大屏不会过载。',
+      '2. **闪烁而不是乱闪**：每颗星有独立的相位与速度，透明度按正弦曲线变化，视觉上更自然。',
+      '3. **DPR 适配**：把 canvas 的物理像素设置为 `CSS 尺寸 × devicePixelRatio`，再用 `ctx.scale` 归一化坐标，避免高分屏发虚。',
+      '',
+      '## 别忘了动效降级',
+      '',
+      '当用户开启了系统的「减弱动态效果」，应当停止动画循环，只绘制一帧静态星空。这既是可访问性要求，也能省下持续的 GPU 开销。',
+    ].join('\n'),
+    tags: ['Canvas', '性能优化', '动效'],
+    cover: '',
+    published: true,
+    publishedAt: '2026-09-18T10:00:00.000Z',
+    createdAt: '2026-09-15T10:00:00.000Z',
+    updatedAt: '2026-09-18T10:00:00.000Z',
+  },
+  {
+    id: 'post_apilayer',
+    slug: 'unified-api-layer-with-localstorage',
+    title: '用 localStorage 搭一层「像真的」的 API',
+    summary: '在没有后端的阶段，如何让前端代码提前拥有真实的接口语义：延迟、错误码、深拷贝与鉴权。',
+    content: [
+      '## 目标不是存数据，而是对齐语义',
+      '',
+      '很多原型项目把 localStorage 直接散落在组件里，等到接后端时几乎要重写一遍。更好的做法是：**先定接口，再定实现**。',
+      '',
+      '## 四个必备要素',
+      '',
+      '- **统一的 request 包装**：所有调用都走同一个函数，注入模拟网络延迟。',
+      '- **结构化错误**：`ApiError` 带上 status 与 code，组件层可以用同一套逻辑处理。',
+      '- **返回值深拷贝**：模拟 JSON 序列化，避免组件直接改到「数据库」里的对象。',
+      '- **鉴权前置**：写操作先校验会话，跟真实后端保持一致。',
+      '',
+      '## 切换到真实后端时',
+      '',
+      '只需要替换 api 目录下的实现，把函数体换成 fetch，其余业务代码和类型定义完全不用动。',
+    ].join('\n'),
+    tags: ['架构', 'TypeScript', '前端工程化'],
+    cover: '',
+    published: true,
+    publishedAt: '2026-08-22T10:00:00.000Z',
+    createdAt: '2026-08-20T10:00:00.000Z',
+    updatedAt: '2026-08-22T10:00:00.000Z',
+  },
+  {
+    id: 'post_tailwind',
+    slug: 'tailwind-design-tokens',
+    title: '把 Tailwind 用成设计系统，而不是一堆原子类',
+    summary: '通过语义化的颜色令牌与组件层抽象，让样式在半年后依然可维护。',
+    content: [
+      '## 症状',
+      '',
+      '半年后回看项目，满屏 `bg-slate-800/60` 和 `text-slate-300`，改一次主题要全局替换。',
+      '',
+      '## 解法',
+      '',
+      '1. 在 `tailwind.config` 里定义**语义化调色板**（night / aurora / plasma），而不是直接用 slate / blue。',
+      '2. 把高频组合抽成 `@layer components` 里的 `.card`、`.btn`，让 JSX 保持可读。',
+      '3. 透明度、阴影、圆角统一走令牌，避免出现 11 种不同的灰色阴影。',
+    ].join('\n'),
+    tags: ['TailwindCSS', '设计系统'],
+    cover: '',
+    published: true,
+    publishedAt: '2026-06-30T10:00:00.000Z',
+    createdAt: '2026-06-28T10:00:00.000Z',
+    updatedAt: '2026-06-30T10:00:00.000Z',
+  },
+  {
+    id: 'post_draft',
+    slug: 'react-state-modeling-draft',
+    title: '（草稿）React 状态建模的三种思路',
+    summary: '把状态放在 URL、Context 还是状态库里？先想清楚状态的所有者是谁。',
+    content: '这篇文章还在撰写中。核心观点：状态应该放在离它最近的、生命周期匹配的层级上。',
+    tags: ['React', '状态管理'],
+    cover: '',
+    published: false,
+    publishedAt: '',
+    createdAt: '2026-10-10T10:00:00.000Z',
+    updatedAt: '2026-10-10T10:00:00.000Z',
+  },
+]

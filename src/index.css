@@ -1,0 +1,95 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  * {
+    @apply border-night-700/60;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    @apply min-h-screen bg-night-950 font-sans text-night-200 antialiased;
+    /* 星空背景由 Starfield 组件绘制，这里只兜底底色，避免加载瞬间白屏 */
+    background-color: #04060d;
+  }
+
+  /* 减弱动效偏好：关闭所有过渡与动画 */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+
+  ::selection {
+    @apply bg-aurora-500/35 text-white;
+  }
+
+  :focus-visible {
+    @apply outline-none ring-2 ring-aurora-400/60 ring-offset-2 ring-offset-night-950;
+  }
+
+  /* 深色滚动条 */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #070b16;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border: 2px solid #070b16;
+    border-radius: 9999px;
+    background: #2a3450;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #3d4a6b;
+  }
+}
+
+@layer components {
+  /* 玻璃拟态面板：深色主题下用于提升层次感 */
+  .glass {
+    @apply border border-night-700/60 bg-night-900/55 backdrop-blur-md;
+  }
+
+  /* 分区锚点滚动时的顶部留白，配合 sticky header */
+  .section-anchor {
+    @apply scroll-mt-24;
+  }
+
+  .text-gradient {
+    @apply bg-gradient-to-r from-aurora-300 via-aurora-200 to-plasma-300 bg-clip-text text-transparent;
+  }
+}
+
+@layer utilities {
+  /* 隐藏横向滚动条但保留滚动能力 */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
